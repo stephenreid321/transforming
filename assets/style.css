@@ -74,9 +74,13 @@ a:hover { text-decoration-color: var(--ink); }
 }
 .topbar.scrolled { border-bottom-color: var(--line); }
 .brand { display: flex; align-items: center; gap: .6rem; text-decoration: none; font-weight: 700; letter-spacing: -.01em; line-height: 1.1; font-size: .95rem; margin-right: auto; min-width: 0; }
-.brand-mark { flex: none; width: 2.1rem; height: 1.15rem; border: 2px solid var(--ink); border-radius: 999px; position: relative; }
-.brand-mark::after { content: ""; position: absolute; inset: 3px auto 3px 3px; width: .55rem; border-radius: 999px; background: var(--ink); transition: inset .5s var(--ease), width .5s var(--ease); }
-.brand:hover .brand-mark::after { width: calc(100% - 6px); }
+/* logo: the handbook's I, WE and IT circles, drawing closer on hover */
+.brand-mark { flex: none; width: 2.1rem; height: 2rem; overflow: visible; fill: none; stroke: var(--ink); stroke-width: 2.4; }
+.brand-mark circle { transition: transform .6s var(--ease); }
+.brand-mark .c1 { fill: color-mix(in srgb, var(--ink) 18%, transparent); }
+.brand:hover .brand-mark .c1 { transform: translate(0, 2px); }
+.brand:hover .brand-mark .c2 { transform: translate(2px, -1px); }
+.brand:hover .brand-mark .c3 { transform: translate(-2px, -1px); }
 .brand small { display: block; font-weight: 500; color: var(--muted); font-size: .72rem; letter-spacing: .02em; }
 .brand span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .nav { display: flex; align-items: center; gap: .2rem; }

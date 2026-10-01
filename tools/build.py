@@ -143,7 +143,7 @@ def shell(title, body, *, n=0, desc="", current="", chapter_key="", head_extra="
 <a class="skip" href="#main">Skip to content</a>
 {'<div class="progress" aria-hidden="true"></div>' if progress else ''}
 <header class="topbar">
-  <a class="brand" href="index.html" aria-label="Home: {esc(SITE_TITLE)}"><span class="brand-mark" aria-hidden="true"></span><span>Leading together<small>Web edition of the 2026 handbook</small></span></a>
+  <a class="brand" href="index.html" aria-label="Home: {esc(SITE_TITLE)}"><svg class="brand-mark" viewBox="0 0 40 38" aria-hidden="true"><circle class="c1" cx="20" cy="13" r="10"/><circle class="c2" cx="13" cy="25" r="10"/><circle class="c3" cx="27" cy="25" r="10"/></svg><span>Leading together<small>Web edition of the 2026 handbook</small></span></a>
   <button class="icon-btn search-btn" aria-label="Search the handbook">{ICON['search']}<kbd>/</kbd></button>
   <nav class="nav" aria-label="Main">
     <div class="chapters-menu">
