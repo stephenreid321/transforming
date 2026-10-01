@@ -598,6 +598,19 @@ def home_page():
   </div>
 </section>
 
+<section class="home-section wrap video-band" aria-labelledby="video-title">
+  <div class="video-head reveal"><span class="kicker">The handbook in two minutes</span>
+    <h2 id="video-title" class="lede" style="font-family:var(--sans);font-weight:700;letter-spacing:-.03em;margin-top:.6rem">Why leading together, what is inside, and how to use this site.</h2></div>
+  <div class="video-frame reveal">
+    <video controls preload="none" playsinline poster="assets/video/explainer-poster.jpg">
+      <source src="assets/video/explainer.mp4" type="video/mp4">
+      <source src="assets/video/explainer.webm" type="video/webm">
+      <track kind="captions" src="assets/video/explainer.vtt" srclang="en" label="English">
+    </video>
+    <button class="video-play" aria-label="Play the two-minute explainer video">{ICON['play']}<span>Play · 2 min</span></button>
+  </div>
+</section>
+
 <section class="home-section wrap">
   <div class="split">
     <div class="reveal">

@@ -248,6 +248,17 @@ a:hover { text-decoration-color: var(--ink); }
 .way p { margin: 0; color: var(--muted); font-size: .93rem; line-height: 1.5; }
 .way .go { margin-top: auto; padding-top: .8rem; font: 700 .85rem var(--sans); color: var(--ink); }
 
+.video-band { padding-bottom: 0; }
+.video-frame { position: relative; margin-top: 2rem; border-radius: 22px; overflow: hidden; background: #e6d6ea; box-shadow: 0 40px 80px -40px rgba(40, 0, 50, .45); aspect-ratio: 16 / 9; }
+.video-frame video { display: block; width: 100%; height: 100%; object-fit: cover; }
+.video-play {
+  position: absolute; left: 50%; top: 50%; translate: -50% -50%; display: inline-flex; align-items: center; gap: .7rem;
+  font: 700 1.05rem/1 var(--sans); color: #3d0d4f; background: #fff; border: 0; border-radius: 999px; padding: 1.1rem 1.6rem 1.1rem 1.3rem;
+  box-shadow: 0 20px 40px -16px rgba(40, 0, 50, .5); cursor: pointer; transition: transform .25s var(--ease);
+}
+.video-play:hover { transform: scale(1.05); }
+.video-play svg { width: 1.4rem; height: 1.4rem; color: #4f0e64; }
+.video-frame.playing .video-play { display: none; }
 .quote-band { padding: clamp(3rem, 8vw, 6rem) 0; }
 .quote-band .ink-img { max-width: 56rem; margin-inline: auto; }
 .quote-band p { text-align: center; font: 500 .9rem var(--sans); color: var(--muted); margin-top: 1.4rem; }

@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Explainer stage</title>
+<link rel="stylesheet" href="../assets/fonts.css">
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: #111; }
+  #stage { position: relative; width: 1920px; height: 1080px; overflow: hidden; font-family: "Hanken Grotesk", sans-serif; color: #201a23; }
+  .scene { position: absolute; inset: 0; opacity: 0; overflow: hidden; }
+  .ink { background-color: var(--ink); -webkit-mask: var(--m) center / contain no-repeat; mask: var(--m) center / contain no-repeat; }
+  .abs { position: absolute; }
+  .kicker { font: 700 22px/1 "Hanken Grotesk"; letter-spacing: .16em; text-transform: uppercase; color: var(--ink); }
+  .h1 { font: 700 92px/1.02 "Hanken Grotesk"; letter-spacing: -.035em; margin: 0; }
+  .serif { font-family: "Bitter", serif; }
+  .chip { display: inline-block; padding: 18px 30px; border-radius: 999px; background: var(--ink); color: var(--paper); font: 700 34px/1 "Hanken Grotesk"; }
+  .card { background: #fffdf8; border-radius: 6px; box-shadow: 0 24px 60px rgba(30,0,40,.16); }
+  .gradient { background: linear-gradient(105deg, #bfe7ef 0%, #cfd6f0 28%, #e0caea 58%, #efc3dc 100%); background-size: 160% 160%; }
+
+  /* title */
+  #title { color: #fff; }
+  #title .lines { position: absolute; left: 120px; right: 120px; top: 120px; display: grid; gap: 4px; font: 300 112px/1 "Hanken Grotesk"; letter-spacing: -.035em; text-transform: uppercase; }
+  #title .l { display: flex; align-items: center; gap: 10px; white-space: nowrap; }
+  #title .cap { display: inline-block; height: .74em; min-width: .74em; flex: 0 0 .74em; border: 5px solid #fff; border-radius: 999px; }
+  #title .sub { position: absolute; left: 120px; bottom: 100px; font: 600 42px/1.35 "Hanken Grotesk"; max-width: 1300px; color: #3d0d4f; }
+
+  /* cracks */
+  #cracks { --ink: #4f0e64; --paper: #e9d1e5; background: var(--paper); }
+  #cracks .photo { left: 900px; top: 0; width: 1020px; height: 1080px; --m: url(../assets/art/p17-0.webp); -webkit-mask-size: cover; mask-size: cover; }
+  #cracks .chips { position: absolute; left: 120px; top: 440px; width: 820px; display: flex; flex-wrap: wrap; gap: 20px; }
+
+  /* gap */
+  #gap { --ink: #232176; --paper: #e2d9ed; background: var(--paper); }
+  #gap .poster { position: absolute; font: 800 120px/1 "Hanken Grotesk"; letter-spacing: -.04em; color: var(--ink); white-space: nowrap; }
+  #gap .card { position: absolute; left: 430px; top: 330px; width: 1060px; padding: 70px 90px 60px; font: 400 54px/1.35 "EB Garamond", serif; color: #231d24; }
+  #gap .card .who { margin-top: 34px; font: 600 26px/1 "Hanken Grotesk"; letter-spacing: .12em; text-transform: uppercase; color: var(--ink); }
+  #gap .card .head { display: flex; align-items: center; gap: 20px; font: 500 24px/1 "EB Garamond"; font-variant-caps: all-small-caps; letter-spacing: .14em; color: #4b434d; margin-bottom: 36px; }
+  #gap .card .head::before, #gap .card .head::after { content: ""; flex: 1; height: 1.5px; background: #231d24; }
+
+  /* research */
+  #research { --ink: #004b1c; --paper: #d3eadf; background: var(--paper); }
+  #research .ph { position: absolute; }
+  #research .arts span { display: inline-block; margin-right: 20px; padding: 14px 26px; border: 3px solid var(--ink); border-radius: 999px; font: 700 32px/1 "Hanken Grotesk"; color: var(--ink); }
+  #research .arts span.on { background: var(--ink); color: var(--paper); }
+
+  /* I WE IT */
+  #iweit { --ink: #005e5a; --paper: #dfeac6; background: var(--paper); }
+  #iweit svg circle { fill: var(--ink); fill-opacity: 0; stroke: var(--ink); stroke-width: 7; }
+  #iweit .lab { position: absolute; left: 1150px; width: 700px; }
+  #iweit .lab b { display: block; font: 800 76px/1 "Hanken Grotesk"; color: var(--ink); letter-spacing: -.03em; }
+  #iweit .lab span { font: 400 40px/1.3 "Bitter", serif; }
+
+  /* chapters */
+  #chapters { background: #f6f1f4; }
+  #chapters .row { position: absolute; left: 90px; right: 90px; top: 300px; display: grid; grid-template-columns: repeat(6, 1fr); gap: 26px; }
+  #chapters .cc { position: relative; height: 640px; border-radius: 28px; overflow: hidden; background: var(--paper); }
+  #chapters .cc .hero { position: absolute; inset: 0 0 35% 0; --m: none; -webkit-mask-size: cover; mask-size: cover; -webkit-mask-position: left top; mask-position: left top; }
+  #chapters .cc .n { position: absolute; left: 26px; top: 18px; font: 300 120px/1 "Hanken Grotesk"; color: var(--ink); letter-spacing: -.06em; }
+  #chapters .cc .t { position: absolute; left: 26px; right: 22px; bottom: 30px; font: 700 31px/1.12 "Hanken Grotesk"; letter-spacing: -.015em; }
+  #chapters .cc .k { position: absolute; left: 26px; bottom: 150px; font: 700 18px/1 "Hanken Grotesk"; letter-spacing: .14em; text-transform: uppercase; color: var(--ink); }
+
+  /* practices */
+  #practices { --ink: #5c5349; --paper: #f1f3c2; background: var(--paper); }
+  #practices .grid { position: absolute; left: 120px; right: 120px; top: 280px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; }
+  #practices .pc { background: #fffdf8; border-radius: 22px; height: 640px; padding: 34px; display: flex; flex-direction: column; box-shadow: 0 30px 60px -36px rgba(40,30,0,.5); border-top: 10px solid var(--ink); }
+  #practices .pc .k { font: 800 18px/1 "Hanken Grotesk"; letter-spacing: .14em; text-transform: uppercase; color: var(--ink); }
+  #practices .pc h3 { font: 700 40px/1.1 "Hanken Grotesk"; margin: 16px 0 0; letter-spacing: -.02em; }
+  #practices .pc .ink { flex: 1; margin-top: 24px; }
+
+  /* voices */
+  #voices { --ink: #700044; --paper: #d8cdd6; background: var(--paper); }
+  #voices .nb { position: absolute; left: 110px; top: 210px; width: 960px; padding: 64px 70px 64px 130px; line-height: 64px; font: 400 44px/64px "Bitter", serif; color: #231d24;
+    background:
+      radial-gradient(circle at 34px 50%, var(--paper) 13px, transparent 14px) 0 0 / 68px 64px repeat-y,
+      linear-gradient(to right, transparent 92px, rgba(208,80,106,.4) 92px, rgba(208,80,106,.4) 94px, transparent 94px),
+      repeating-linear-gradient(to bottom, transparent 0 63px, rgba(112,0,68,.16) 63px 64px),
+      #fffdf8;
+    background-position: 0 20px, 0 0, 0 38px, 0 0; box-shadow: 0 40px 80px -40px rgba(40,0,30,.5); border-radius: 4px 14px 14px 4px; }
+  #voices .nb .who { font: 700 26px/64px "Hanken Grotesk"; letter-spacing: .12em; text-transform: uppercase; color: var(--ink); }
+  #voices .elena { left: 1170px; top: 120px; width: 600px; height: 856px; --m: url(../assets/art/p12-0.webp); }
+  #voices .tag { position: absolute; left: 110px; top: 760px; font: 700 26px/1.3 "Hanken Grotesk"; color: var(--ink); letter-spacing: .1em; text-transform: uppercase; }
+
+  /* site */
+  #site .shot { position: absolute; width: 1120px; border-radius: 16px; overflow: hidden; background: #fff; box-shadow: 0 50px 100px -40px rgba(30,0,40,.55); }
+  #site .shot .bar { height: 42px; background: #f1edf2; display: flex; align-items: center; gap: 10px; padding: 0 18px; }
+  #site .shot .bar i { width: 13px; height: 13px; border-radius: 50%; background: #d8cfd9; }
+  #site .shot .bar span { margin-left: 18px; flex: 1; height: 24px; border-radius: 12px; background: #fff; font: 500 15px/24px "Hanken Grotesk"; color: #6c6370; padding-left: 14px; }
+  #site .shot img { display: block; width: 100%; }
+  #site .label { position: absolute; left: 120px; top: 120px; }
+
+  /* close */
+  #close { color: #3d0d4f; --ink: #4f0e64; }
+  #close .lettering { left: 210px; top: 110px; width: 1500px; height: 860px; --m: url(../assets/art/p22-3.webp); }
+  #close .big { position: absolute; left: 0; right: 0; text-align: center; font: 400 130px/1 "Hanken Grotesk"; letter-spacing: -.04em; }
+  #close .end { position: absolute; left: 0; right: 0; top: 330px; text-align: center; }
+  #close .end h2 { font: 300 96px/1 "Hanken Grotesk"; letter-spacing: -.04em; text-transform: uppercase; margin: 34px 0 30px; }
+  #close .end p { font: 500 32px/1.5 "Hanken Grotesk"; margin: 0; }
+  #close .end .url { margin-top: 46px; display: inline-block; padding: 18px 36px; border: 3px solid #4f0e64; border-radius: 999px; font: 700 34px/1 "Hanken Grotesk"; }
+  #close .end .credits { margin-top: 50px; font: 500 22px/1.5 "Hanken Grotesk"; opacity: .92; }
+</style>
+</head>
+<body>
+<div id="stage">
+
+  <section class="scene gradient" id="title">
+    <div class="lines">
+      <div class="l">Transf<i class="cap"></i></div>
+      <div class="l"><i class="cap"></i>rming how</div>
+      <div class="l">we lead together:</div>
+      <div class="l">m<i class="cap"></i>ving</div>
+      <div class="l">from hierarchies</div>
+      <div class="l">t<i class="cap"></i>wards co-creation</div>
+    </div>
+    <div class="sub">A handbook for resilient and sustainable organisations and society</div>
+  </section>
+
+  <section class="scene" id="cracks">
+    <div class="abs ink photo"></div>
+    <svg class="abs" style="left:0;top:330px" width="1920" height="1080"><path id="crack" d="M 0 470 L 160 452 L 230 500 L 360 470 L 430 520 L 560 486 L 640 540 L 760 506 L 860 560 L 980 520 L 1080 580 L 1210 548 L 1330 600 L 1460 566 L 1580 630 L 1720 590 L 1920 650" fill="none" stroke="#4f0e64" stroke-width="7" stroke-linejoin="round"/></svg>
+    <div class="abs" style="left:120px;top:150px;width:780px">
+      <div class="kicker">Chapter 1 · Why change?</div>
+      <h1 class="h1" style="margin-top:30px">The cracks are showing</h1>
+    </div>
+    <div class="chips"><span class="chip">Climate change</span><span class="chip">Artificial intelligence</span><span class="chip">An ageing population</span><span class="chip">Loneliness &amp; burnout</span></div>
+  </section>
+
+  <section class="scene" id="gap">
+    <div class="poster" style="left:120px;top:110px">Self-leadership.</div>
+    <div class="poster" style="left:520px;top:840px">Trust-based leadership.</div>
+    <div class="card"><div class="head">{a voice from the workshops}</div><div class="q"></div><div class="who">A public sector employee</div></div>
+  </section>
+
+  <section class="scene" id="research">
+    <div class="abs" style="left:120px;top:130px;width:900px">
+      <div class="kicker">Where it comes from · <span class="yr">2022</span>–2026</div>
+      <h1 class="h1" style="margin-top:30px;font-size:84px">Four years of participatory research</h1>
+      <p class="serif" style="font-size:36px;line-height:1.45;margin:34px 0 0" class="places">With Lidingö, Umeå, Eskilstuna and Uppsala municipalities, the Swedish Police, the Transport Administration, the National Grid, Formas and RISE.</p>
+      <div class="arts" style="margin-top:50px"><span>choreography</span><span>photography</span><span>poetry</span><span>design</span></div>
+    </div>
+    <div class="ph ink" style="left:1040px;top:90px;width:760px;height:478px;--m:url(../assets/art/p23-0.webp)"></div>
+    <div class="ph ink" style="left:1120px;top:560px;width:720px;height:405px;--m:url(../assets/art/p121-0.webp)"></div>
+    <div class="ph ink" style="left:960px;top:520px;width:300px;height:300px;--m:url(../assets/art/p31-0.webp)"></div>
+  </section>
+
+  <section class="scene" id="iweit">
+    <div class="abs" style="left:120px;top:110px"><div class="kicker">The central idea</div><h1 class="h1" style="margin-top:26px;font-size:80px">Change happens on three levels at once</h1></div>
+    <svg class="abs" style="left:180px;top:300px" width="860" height="760" viewBox="0 0 860 760">
+      <circle class="c1" cx="430" cy="250" r="210"/><circle class="c2" cx="290" cy="490" r="210"/><circle class="c3" cx="570" cy="490" r="210"/>
+      <text x="430" y="230" text-anchor="middle" font-family="Hanken Grotesk" font-weight="800" font-size="72" fill="#005e5a" class="t1">I</text>
+      <text x="240" y="540" text-anchor="middle" font-family="Hanken Grotesk" font-weight="800" font-size="72" fill="#005e5a" class="t2">WE</text>
+      <text x="620" y="540" text-anchor="middle" font-family="Hanken Grotesk" font-weight="800" font-size="72" fill="#005e5a" class="t3">IT</text>
+    </svg>
+    <div class="lab l1" style="top:380px"><b>I</b><span>our inner beliefs, values and habits</span></div>
+    <div class="lab l2" style="top:600px"><b>WE</b><span>our relationships, trust and culture</span></div>
+    <div class="lab l3" style="top:820px"><b>IT</b><span>our structures, processes and budgets</span></div>
+  </section>
+
+  <section class="scene" id="chapters">
+    <div class="abs" style="left:90px;top:110px"><div class="kicker" style="--ink:#4f0e64">The journey</div><h1 class="h1" style="margin-top:26px;font-size:80px">Six chapters</h1></div>
+    <div class="row"></div>
+  </section>
+
+  <section class="scene" id="practices">
+    <div class="abs" style="left:120px;top:110px"><div class="kicker">Practice library</div><h1 class="h1" style="margin-top:26px;font-size:80px">Tried and tested practices</h1></div>
+    <div class="grid">
+      <div class="pc"><span class="k">Self-awareness</span><h3>Core Quadrant</h3><div class="ink" style="--m:url(../assets/art/p41-0.webp)"></div></div>
+      <div class="pc"><span class="k">Culture</span><h3>Dialogue &amp; listening</h3><div class="ink" style="--m:url(../assets/art/p56-1.webp)"></div></div>
+      <div class="pc"><span class="k">Structures</span><h3>Consent-based decisions</h3><div class="ink" style="--m:url(../assets/art/p94-0.webp)"></div></div>
+      <div class="pc"><span class="k">Movement score</span><h3>Moving together</h3>
+        <svg viewBox="0 0 200 200" style="flex:1;margin-top:24px"><circle cx="100" cy="100" r="80" fill="none" stroke="#e5e0d2" stroke-width="14"/><circle class="ring" cx="100" cy="100" r="80" fill="none" stroke="#5c5349" stroke-width="14" stroke-linecap="round" transform="rotate(-90 100 100)" stroke-dasharray="502.7"/><text class="tt" x="100" y="114" text-anchor="middle" font-family="Hanken Grotesk" font-weight="800" font-size="40" fill="#201a23">10:00</text></svg></div>
+    </div>
+  </section>
+
+  <section class="scene" id="voices">
+    <div class="nb"><div class="who">Voices from the field</div><div class="q">“When I meet leaders from the public sector, they feel the pain. They don’t need me to explain why it’s needed.”</div><div class="who" style="text-transform:none;letter-spacing:0;font-weight:600">— Mette Aagaard</div></div>
+    <div class="abs ink elena"></div>
+    <div class="tag">Elena’s story → a fictional manager in elderly care,<br>trying to lead differently</div>
+  </section>
+
+  <section class="scene gradient" id="site">
+    <div class="label"><div class="kicker" style="--ink:#4f0e64">On this website</div><h1 class="h1" style="margin-top:26px;font-size:80px;color:#2a1730">Read, practise, reflect</h1></div>
+    <div class="shot s1" style="left:120px;top:330px"><div class="bar"><i></i><i></i><i></i><span>Search the handbook</span></div><img src="build/shots/search.png"></div>
+    <div class="shot s2" style="left:680px;top:300px"><div class="bar"><i></i><i></i><i></i><span>Practice library</span></div><img src="build/shots/practices.png"></div>
+    <div class="shot s3" style="left:300px;top:380px"><div class="bar"><i></i><i></i><i></i><span>Movement score timer</span></div><img src="build/shots/timer.png"></div>
+    <div class="shot s4" style="left:760px;top:350px"><div class="bar"><i></i><i></i><i></i><span>Reflection journal</span></div><img src="build/shots/journal.png"></div>
+  </section>
+
+  <section class="scene gradient" id="close">
+    <div class="abs ink lettering"></div>
+    <div class="big b1" style="top:440px">Start wherever you are.</div>
+    <div class="big b2" style="top:440px">You are not alone.</div>
+    <div class="end">
+      <svg viewBox="0 0 40 38" width="110" height="105" fill="none" stroke="#4f0e64" stroke-width="2.4"><circle cx="20" cy="13" r="10" fill="#4f0e64" fill-opacity=".18"/><circle cx="13" cy="25" r="10"/><circle cx="27" cy="25" r="10"/></svg>
+      <h2>Transforming how<br>we lead together</h2>
+      <p>Moving from hierarchies towards co-creation</p>
+      <div class="url">stephenreid321.github.io/transforming</div>
+      <div class="credits">Nina Božič Yams, Laura Gottlieb &amp; Álvaro Aranda Muñoz · RISE Research Institutes of Sweden<br>Funded by AFA Försäkring and Forte · CC BY 4.0</div>
+    </div>
+  </section>
+</div>
+
+<script src="build/timing.js"></script>
+<script>
+const $ = (s, el = document) => el.querySelector(s);
+const $$ = (s, el = document) => [...el.querySelectorAll(s)];
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const ease = (x) => (x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+const out = (x) => 1 - Math.pow(1 - x, 3);
+const prog = (t, a, d = 0.7, f = ease) => f(clamp((t - a) / d));
+
+// ---------- timeline from narration timing ----------
+const LEAD = 0.8, TAIL = 1.0;
+let acc = 0;
+const S = {};
+TIMING.forEach((sc, i) => {
+  const lead = i === 0 ? 1.8 : LEAD;
+  const tail = i === TIMING.length - 1 ? 6.5 : TAIL;
+  const len = lead + sc.dur + tail;
+  S[sc.id] = { ...sc, start: acc, lead, len, end: acc + len, el: document.getElementById(sc.id) };
+  sc.start = acc; sc.lead = lead;
+  acc += len;
+});
+window.TOTAL = acc;
+// time (local to scene) at which a phrase is spoken, by position in the text
+const cue = (id, phrase) => {
+  const s = S[id], i = s.say.toLowerCase().indexOf(phrase.toLowerCase());
+  if (i < 0) throw new Error("cue not found: " + phrase);
+  return s.lead + s.dur * (i / s.say.length);
+};
+
+// ---------- build dynamic content ----------
+const CH = [["4f0e64", "e9d1e5", "Why change?"], ["232176", "e2d9ed", "Self-leadership"], ["004b1c", "d3eadf", "Culture and relationships"],
+            ["005e5a", "dfeac6", "New roles"], ["5c5349", "f1f3c2", "Participatory structures"], ["700044", "d8cdd6", "Your transformation journey"]];
+$("#chapters .row").innerHTML = CH.map(([ink, paper, t], i) =>
+  `<div class="cc" style="--ink:#${ink};--paper:#${paper}"><div class="hero ink" style="--m:url(../assets/hero/chapter-${i + 1}.webp)"></div><div class="k">Chapter ${i + 1}</div><div class="t">${t}</div></div>`).join("");
+const QUOTE = "“This is us. We stand for self-leadership and trust-based leadership. But I have never experienced any of that in practice.”";
+$("#gap .q").innerHTML = QUOTE.split(" ").map((w) => `<span>${w} </span>`).join("");
+
+// ---------- scene renderers (lt = seconds since scene start) ----------
+const R = {
+  title(lt) {
+    const el = S.title.el;
+    el.style.backgroundPosition = `${(lt / 10) * 100}% 50%`;
+    $$(".l", el).forEach((l, i) => { const p = prog(lt, 0.2 + i * 0.15, 0.9, out); l.style.opacity = p; l.style.transform = `translateY(${(1 - p) * 40}px)`; });
+    $$(".cap", el).forEach((c, i) => { c.style.flexGrow = prog(lt, 1.2 + i * 0.25, 1.8); });
+    const sp = prog(lt, 2.6, 1);
+    $(".sub", el).style.opacity = sp; $(".sub", el).style.transform = `translateY(${(1 - sp) * 20}px)`;
+  },
+  cracks(lt) {
+    const el = S.cracks.el;
+    const p = prog(lt, 0, 1.4, out);
+    $(".photo", el).style.opacity = p * 0.95;
+    $(".photo", el).style.transform = `scale(${1.12 - 0.08 * lt / S.cracks.len}) translateX(${(1 - p) * 60}px)`;
+    const h = prog(lt, 0.3, 0.9, out);
+    el.querySelector(".h1").style.opacity = h; el.querySelector(".h1").style.transform = `translateY(${(1 - h) * 30}px)`;
+    const cues = ["Climate", "A.I.", "ageing", "loneliness"].map((c) => cue("cracks", c));
+    $$(".chip", el).forEach((c, i) => { const q = prog(lt, cues[i] - 0.15, 0.5, out); c.style.opacity = q; c.style.transform = `translateY(${(1 - q) * 30}px) rotate(${(i % 2 ? 1.5 : -1.5) * q}deg) scale(${0.9 + 0.1 * q})`; });
+    const path = $("#crack"), L = path.getTotalLength();
+    path.style.strokeDasharray = L;
+    path.style.strokeDashoffset = L * (1 - prog(lt, cue("cracks", "complex") - 0.2, 2.2));
+  },
+  gap(lt) {
+    const el = S.gap.el, posters = $$(".poster", el);
+    const a = prog(lt, cue("gap", "self-leadership") - 0.3, 0.8, out), b = prog(lt, cue("gap", "trust-based") - 0.3, 0.8, out);
+    posters[0].style.opacity = a * 0.9; posters[0].style.transform = `translateX(${(1 - a) * -80}px)`;
+    posters[1].style.opacity = b * 0.9; posters[1].style.transform = `translateX(${(1 - b) * 80}px)`;
+    const cIn = prog(lt, cue("gap", "But as one") - 0.6, 0.9, out);
+    const card = $(".card", el);
+    card.style.opacity = cIn; card.style.transform = `translateY(${(1 - cIn) * 70}px)`;
+    const spans = $$(".q span", el), t0 = cue("gap", "But as one"), t1 = S.gap.lead + S.gap.dur - 0.6;
+    spans.forEach((s, i) => { s.style.opacity = 0.15 + 0.85 * prog(lt, t0 + (t1 - t0) * (i / spans.length), 0.35); });
+  },
+  research(lt) {
+    const el = S.research.el;
+    const items = $$(".ph", el);
+    items.forEach((ph, i) => { const q = prog(lt, 0.2 + i * 0.5, 1.2, out); ph.style.opacity = q; ph.style.transform = `translateY(${(1 - q) * 60}px) rotate(${[-1.5, 1.2, 8][i] * q}deg) scale(${1.04 - 0.04 * q})`; });
+    const kick = $(".kicker", el).parentElement; const k = prog(lt, 0, 0.8, out); kick.style.opacity = k;
+    const arts = $$(".arts span", el), words = ["choreography", "photography", "poetry", "design"];
+    arts.forEach((s, i) => { const on = lt >= cue("research", words[i]) - 0.1; s.classList.toggle("on", on); s.style.transform = `scale(${on ? 1 + 0.06 * (1 - prog(lt, cue("research", words[i]), 0.4)) : 1})`; });
+  },
+  iweit(lt) {
+    const el = S.iweit.el;
+    const c = $$("circle", el), t = [cue("iweit", "The I"), cue("iweit", "The we"), cue("iweit", "the it")];
+    const draw = cue("iweit", "three levels") - 0.4;
+    c.forEach((ci, i) => {
+      const L = 2 * Math.PI * 210; ci.style.strokeDasharray = L;
+      ci.style.strokeDashoffset = L * (1 - prog(lt, draw + i * 0.35, 1.3));
+      ci.style.fillOpacity = 0.22 * prog(lt, t[i] - 0.2, 0.5);
+    });
+    $$("text", el).forEach((x, i) => x.style.opacity = prog(lt, t[i] - 0.2, 0.5));
+    $$(".lab", el).forEach((l, i) => { const q = prog(lt, t[i] - 0.25, 0.6, out); l.style.opacity = q; l.style.transform = `translateX(${(1 - q) * 50}px)`; });
+    const h = prog(lt, 0, 0.8, out); $(".h1", el).parentElement.style.opacity = h;
+    // circles drift together at the end, like the logo
+    const pull = prog(lt, S.iweit.lead + S.iweit.dur - 0.5, 1.2);
+    c[0].setAttribute("cy", 250 + 30 * pull); c[1].setAttribute("cx", 290 + 26 * pull); c[2].setAttribute("cx", 570 - 26 * pull);
+  },
+  chapters(lt) {
+    const el = S.chapters.el;
+    const phrases = ["why we need", "self-leadership", "culture", "new roles", "participatory", "designing"];
+    $$(".cc", el).forEach((cc, i) => { const q = prog(lt, cue("chapters", phrases[i]) - 0.35, 0.8, out); cc.style.opacity = q; cc.style.transform = `translateY(${(1 - q) * 90}px)`; });
+    const h = prog(lt, 0, 0.8, out); $(".h1", el).parentElement.style.opacity = h;
+  },
+  practices(lt) {
+    const el = S.practices.el;
+    const phrases = ["core quadrant", "dialogue", "consent-based", "movement scores"];
+    $$(".pc", el).forEach((pc, i) => { const q = prog(lt, cue("practices", phrases[i]) - 0.4, 0.8, out); pc.style.opacity = q; pc.style.transform = `translateY(${(1 - q) * 80}px) rotate(${(1 - q) * (i % 2 ? 2 : -2)}deg)`; });
+    const ringT = clamp((lt - cue("practices", "movement scores")) / 6);
+    $(".ring", el).style.strokeDashoffset = 502.7 * ringT;
+    const secs = Math.max(0, 600 - Math.floor(ringT * 6 * 1));
+    $(".tt", el).textContent = `${Math.floor(secs / 60)}:${String(secs % 60).padStart(2, "0")}`;
+    const h = prog(lt, 0, 0.8, out); $(".h1", el).parentElement.style.opacity = h;
+  },
+  voices(lt) {
+    const el = S.voices.el;
+    const a = prog(lt, 0.1, 1, out); $(".nb", el).style.opacity = a; $(".nb", el).style.transform = `translateY(${(1 - a) * 60}px) rotate(${-0.6 * a}deg)`;
+    const e = prog(lt, cue("voices", "Elena") - 0.4, 1.2, out); $(".elena", el).style.opacity = e; $(".elena", el).style.transform = `translateX(${(1 - e) * 80}px)`;
+    const tg = prog(lt, cue("voices", "Elena") + 0.4, 0.8, out); $(".tag", el).style.opacity = tg;
+  },
+  site(lt) {
+    const el = S.site.el;
+    el.style.backgroundPosition = `${30 + (lt / 10) * 40}% 50%`;
+    const phrases = ["search", "practice library", "time a movement", "journal"];
+    const shots = $$(".shot", el);
+    shots.forEach((s, i) => {
+      const q = prog(lt, cue("site", phrases[i]) - 0.35, 0.8, out);
+      const later = shots.slice(i + 1).reduce((m, _, j) => m + prog(lt, cue("site", phrases[i + 1 + j]) - 0.35, 0.8), 0);
+      s.style.opacity = q; s.style.filter = `brightness(${1 - 0.08 * Math.min(1, later)})`;
+      s.style.transform = `translateY(${(1 - q) * 120}px) rotate(${[-3, 2.5, -1.5, 2][i] * q}deg) scale(${0.96 - 0.05 * later})`;
+    });
+    const h = prog(lt, 0, 0.8, out); $(".label", el).style.opacity = h;
+  },
+  close(lt) {
+    const el = S.close.el;
+    el.style.backgroundPosition = `${(lt / 12) * 100}% 50%`;
+    const tStart = cue("close", "Start wherever"), tAlone = cue("close", "not alone"), tEnd = S.close.lead + S.close.dur + 0.3;
+    const L = prog(lt, 0, 1.2, out) * (1 - prog(lt, tStart - 0.6, 0.6));
+    $(".lettering", el).style.opacity = L; $(".lettering", el).style.transform = `scale(${0.96 + 0.06 * lt / tStart})`;
+    const b1 = prog(lt, tStart - 0.2, 0.6, out) * (1 - prog(lt, tAlone - 0.4, 0.4));
+    const b2 = prog(lt, tAlone - 0.2, 0.6, out) * (1 - prog(lt, tEnd, 0.6));
+    $(".b1", el).style.opacity = b1; $(".b1", el).style.transform = `translateY(${(1 - b1) * 20}px)`;
+    $(".b2", el).style.opacity = b2; $(".b2", el).style.transform = `translateY(${(1 - b2) * 20}px)`;
+    const e = prog(lt, tEnd + 0.4, 1, out); $(".end", el).style.opacity = e; $(".end", el).style.transform = `translateY(${(1 - e) * 30}px)`;
+    $(".end", el).style.top = "200px";
+  },
+};
+
+// ---------- master render ----------
+window.render = (t) => {
+  const ids = TIMING.map((s) => s.id);
+  ids.forEach((id, i) => {
+    const s = S[id], lt = t - s.start;
+    const next = ids[i + 1] && S[ids[i + 1]];
+    const fadeIn = i === 0 ? prog(t, 0, 0.8) : prog(lt, 0, 0.6);
+    const visible = lt >= 0 && (!next || t < next.start + 0.7);
+    s.el.style.opacity = visible ? fadeIn * (i === ids.length - 1 ? 1 - prog(t, TOTAL - 0.8, 0.8) : 1) : 0;
+    s.el.style.zIndex = i;
+    if (visible) R[id](Math.max(0, lt));
+  });
+};
+window.ready = Promise.all([document.fonts.ready, ...[...new Set([...document.querySelectorAll("*")].flatMap((el) => {
+  const m = getComputedStyle(el).getPropertyValue("--m").match(/url\(["']?([^"')]+)/); return m ? [new URL(m[1], location.href).href] : [];
+}))].map((src) => new Promise((r) => { const i = new Image(); i.onload = i.onerror = r; i.src = src; })),
+  ...[...document.images].map((i) => i.complete ? 0 : new Promise((r) => (i.onload = i.onerror = r)))]);
+const qs = new URLSearchParams(location.search);
+if (qs.has("t")) window.ready.then(() => render(+qs.get("t")));
+else if (!qs.has("render")) { const t0 = performance.now(); const loop = () => { render(((performance.now() - t0) / 1000) % TOTAL); requestAnimationFrame(loop); }; window.ready.then(loop); }
+</script>
+</body>
+</html>

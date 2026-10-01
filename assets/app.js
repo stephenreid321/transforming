@@ -90,6 +90,14 @@
   const cover = $(".cover");
   if (cover) requestAnimationFrame(() => setTimeout(() => cover.classList.add("go"), 250));
 
+  /* ---------- explainer video ---------- */
+  $$(".video-frame").forEach((fr) => {
+    const v = fr.querySelector("video"), b = fr.querySelector(".video-play");
+    b?.addEventListener("click", () => { v.play(); });
+    v.addEventListener("play", () => fr.classList.add("playing"));
+    v.addEventListener("ended", () => fr.classList.remove("playing"));
+  });
+
   /* ---------- chapter progress on home ---------- */
   $$("[data-progress]").forEach((el) => {
     const p = store.get("progress:" + el.dataset.progress, 0) || 0;

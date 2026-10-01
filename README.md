@@ -29,3 +29,18 @@ python3 tools/build.py      # -> *.html + assets/search-index.js
 ```
 
 Hand corrections live in `content/curation.json`: figures to drop or merge, words the PDF fonts split apart, practice titles and tags, and small text patches. Fix content there and re-run `structure.py` and `build.py`.
+
+## Explainer video
+
+`assets/video/explainer.mp4` (plus a WebM fallback, poster and captions) is a 2-minute motion-graphics explainer made from the handbook's own artwork. It is embedded on the homepage. To change it, edit `video/script.json` (narration) or `video/stage.html` (scenes), then:
+
+```sh
+mkdir -p video/build/frames && cd video
+python3 narrate.py                      # narration per scene (gTTS) + timing
+python3 audio.py                        # narration on the timeline + generated music bed + captions
+cd .. && python3 -m http.server 8765 &  # stage.html is rendered from a local server
+for w in 0 1 2 3; do node video/render.js $w 4 & done; wait   # 30 fps JPEG frames (Playwright)
+ffmpeg -framerate 30 -i video/build/frames/%05d.jpg -i video/build/mix.m4a -c:v libx264 -crf 23 -pix_fmt yuv420p -c:a copy -shortest -movflags +faststart assets/video/explainer.mp4
+```
+
+Open `video/stage.html` in a browser to preview it as a live loop, or add `?t=42` to see one moment. The narration is a synthetic voice; to use a human recording, replace `video/build/<scene>.wav` and re-run `audio.py`.

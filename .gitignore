@@ -2,3 +2,5 @@
 content/raw.json
 content/review.txt
 __pycache__/
+# video render intermediates (narration wavs, frames)
+video/build/
