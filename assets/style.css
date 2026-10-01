@@ -65,14 +65,21 @@ a:hover { text-decoration-color: var(--ink); }
   position: sticky; top: 0; z-index: 50;
   display: flex; align-items: center; gap: 1rem;
   padding: .7rem clamp(1rem, 3vw, 2rem);
-  background: color-mix(in srgb, var(--paper) 82%, transparent);
-  backdrop-filter: blur(14px) saturate(1.3);
-  -webkit-backdrop-filter: blur(14px) saturate(1.3);
   border-bottom: 1px solid transparent;
   transition: border-color .3s, background-color .5s;
   font-family: var(--sans);
 }
 .topbar.scrolled { border-bottom-color: var(--line); }
+/* the blur lives on a pseudo-element: backdrop-filter on .topbar itself would become the
+   containing block for the position:fixed mobile drawer and trap it inside the bar */
+.topbar::before {
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  background: color-mix(in srgb, var(--paper) 82%, transparent);
+  backdrop-filter: blur(14px) saturate(1.3);
+  -webkit-backdrop-filter: blur(14px) saturate(1.3);
+  transition: background-color .5s;
+}
+body.menu-open { overflow: hidden; }
 .brand { display: flex; align-items: center; gap: .6rem; text-decoration: none; font-weight: 700; letter-spacing: -.01em; line-height: 1.1; font-size: .95rem; margin-right: auto; min-width: 0; }
 /* logo: the handbook's I, WE and IT circles, drawing closer on hover */
 .brand-mark { flex: none; width: 2.1rem; height: 2rem; overflow: visible; fill: none; stroke: var(--ink); stroke-width: 2.4; }
@@ -94,6 +101,7 @@ a:hover { text-decoration-color: var(--ink); }
 .icon-btn svg { width: 1.15rem; height: 1.15rem; }
 .search-btn kbd { font: 600 .7rem var(--sans); border: 1px solid var(--line); border-radius: 5px; padding: .1rem .35rem; color: var(--muted); }
 .menu-btn { display: none; }
+.mobile-only { display: none; }
 .chapters-menu { position: relative; }
 .chapters-menu > button svg { width: .8rem; height: .8rem; transition: transform .25s; }
 .chapters-menu[open] > button svg, .chapters-menu.open > button svg { transform: rotate(180deg); }
@@ -119,6 +127,7 @@ a:hover { text-decoration-color: var(--ink); }
   .nav a, .nav button { padding: .85rem 1rem; font-size: 1rem; justify-content: flex-start; }
   .chapters-pop { position: static; translate: none; width: auto; box-shadow: none; border: 0; padding: 0 0 0 .5rem; grid-template-columns: 1fr; background: none; }
   .menu-btn { display: inline-flex; position: relative; z-index: 2; }
+  .nav .mobile-only { display: inline; }
   .search-btn kbd { display: none; }
 }
 .scrim { position: fixed; inset: 0; background: rgba(10, 0, 15, .35); z-index: 40; opacity: 0; pointer-events: none; transition: opacity .3s; }
@@ -346,10 +355,12 @@ a:hover { text-decoration-color: var(--ink); }
 }
 .mobile-toc { display: none; }
 @media (max-width: 1080px) {
-  .mobile-toc { display: block; position: fixed; z-index: 45; bottom: 1rem; left: 50%; translate: -50% 0; }
+  /* centred with flex, not a transform: a transformed parent would trap the position:fixed sheet */
+  .mobile-toc { display: flex; justify-content: center; position: fixed; z-index: 45; bottom: 1rem; left: 0; right: 0; pointer-events: none; }
+  .mobile-toc > button, .mobile-toc .sheet { pointer-events: auto; }
   .mobile-toc > button { font: 700 .85rem var(--sans); background: var(--ink); color: var(--paper); border: 0; border-radius: 999px; padding: .8rem 1.2rem; box-shadow: 0 10px 30px -10px rgba(0,0,0,.4); display: flex; gap: .5rem; align-items: center; max-width: 88vw; cursor: pointer; }
   .mobile-toc > button span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .mobile-toc .sheet { position: fixed; left: 0; right: 0; bottom: 0; max-height: 70vh; overflow-y: auto; background: var(--card); border-radius: 22px 22px 0 0; padding: 1.4rem 1.2rem 2rem; transform: translateY(105%); transition: transform .35s var(--ease); box-shadow: 0 -20px 60px -20px rgba(0,0,0,.4); }
+  .mobile-toc .sheet { position: fixed; left: 0; right: 0; bottom: 0; max-height: 70vh; z-index: 1; overflow-y: auto; background: var(--card); border-radius: 22px 22px 0 0; padding: 1.4rem 1.2rem 2rem; transform: translateY(105%); transition: transform .35s var(--ease); box-shadow: 0 -20px 60px -20px rgba(0,0,0,.4); }
   .mobile-toc.open .sheet { transform: none; }
   .mobile-toc .sheet ol { list-style: none; margin: 0; padding: 0; }
   .mobile-toc .sheet a { display: block; padding: .7rem .4rem; font: 600 .95rem/1.3 var(--sans); text-decoration: none; border-bottom: 1px solid var(--line); }

@@ -33,6 +33,12 @@
   const nav = $(".nav"), scrim = $(".scrim"), menuBtn = $(".menu-btn");
   const setMenu = (open) => {
     nav?.classList.toggle("open", open); scrim?.classList.toggle("on", open);
+    document.body.classList.toggle("menu-open", open);
+    if (menuBtn) {
+      menuBtn._icon = menuBtn._icon || menuBtn.innerHTML;
+      menuBtn.innerHTML = open ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>' : menuBtn._icon;
+      menuBtn.setAttribute("aria-label", open ? "Close menu" : "Menu");
+    }
     menuBtn?.setAttribute("aria-expanded", open);
   };
   menuBtn?.addEventListener("click", () => setMenu(!nav.classList.contains("open")));

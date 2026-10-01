@@ -154,7 +154,7 @@ def shell(title, body, *, n=0, desc="", current="", chapter_key="", head_extra="
     <a href="voices.html"{cur('voices')}>Voices</a>
     <a href="elena.html"{cur('elena')}>Elena’s story</a>
     <a href="journal.html"{cur('journal')}>Journal</a>
-    <button class="icon-btn" id="theme-btn" aria-label="Toggle dark mode">{ICON['moon']}</button>
+    <button class="icon-btn" id="theme-btn" aria-label="Toggle dark mode">{ICON['moon']}<span class="mobile-only">Dark mode</span></button>
   </nav>
   <button class="icon-btn menu-btn" aria-label="Menu" aria-expanded="false">{ICON['menu']}</button>
 </header>
