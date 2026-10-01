@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Rebuild the explainer end to end: narration -> soundtrack/captions -> frames -> MP4/WebM.
+# Rebuild the explainer end to end: narration -> soundtrack/captions -> site screenshots -> frames -> MP4/WebM.
 # Run from the repo root: bash video/make.sh   (set ELEVENLABS_API_KEY for the ElevenLabs voice)
 set -euo pipefail
 cd "$(dirname "$0")"
@@ -12,6 +12,7 @@ cd ..
 python3 -m http.server 8765 >/dev/null 2>&1 & SERVER=$!
 trap 'kill $SERVER' EXIT
 sleep 1
+node video/shots.js
 for w in 0 1 2 3; do node video/render.js "$w" 4 & done; wait $(jobs -p | grep -v "^$SERVER$") || true
 ffmpeg -y -v error -framerate 30 -i video/build/frames/%05d.jpg -i video/build/mix.m4a -c:v libx264 -preset slow -crf 23 \
   -pix_fmt yuv420p -tune animation -c:a copy -shortest -movflags +faststart assets/video/explainer.mp4
