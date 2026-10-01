@@ -1,0 +1,282 @@
+{
+ "drop_art": [
+  "p3-0",
+  "p3-1",
+  "p3-2",
+  "p3-6",
+  "p4-1",
+  "p4-2",
+  "p4-4",
+  "p8-2",
+  "p8-3",
+  "p9-0",
+  "p11-3",
+  "p11-4",
+  "p11-5",
+  "p11-6",
+  "p11-7",
+  "p22-0",
+  "p22-1",
+  "p22-2",
+  "p22-4",
+  "p22-5",
+  "p33-0",
+  "p33-1",
+  "p33-2",
+  "p36-2",
+  "p47-1",
+  "p53-6",
+  "p53-7",
+  "p64-0",
+  "p64-1",
+  "p64-2",
+  "p65-2",
+  "p69-0",
+  "p81-0",
+  "p81-1",
+  "p94-1",
+  "p94-2",
+  "p94-3",
+  "p104-1",
+  "p106-0",
+  "p106-1",
+  "p110-2",
+  "p128-0",
+  "p21-0",
+  "p50-0",
+  "p70-0",
+  "p71-0",
+  "p107-0",
+  "p108-0"
+ ],
+ "keep_hyphen": [],
+ "story_fix": {
+  "Af er": "After",
+  "af ernoon": "afternoon",
+  "af erwards": "afterwards",
+  "af er": "after",
+  "sit ing": "sitting",
+  "at ention": "attention",
+  "at endance": "attendance",
+  "writ en": "written",
+  "lit le": "little",
+  "mat ered": "mattered",
+  "fif een": "fifteen",
+  "shif ing": "shifting",
+  "hit ing": "hitting",
+  "set les": "settles",
+  "Microsof ": "Microsoft ",
+  "offi ce": "office",
+  "offi cials": "officials",
+  "newslet er": "newsletter",
+  "bet er": "better",
+  "twopage": "two-page",
+  "diffi cult": "difficult",
+  "Aleadership": "A leadership",
+  "let ing": "letting",
+  "to at end a book": "to attend a book"
+ },
+ "patch": {
+  "derived fromThe Core": "derived from The Core",
+  "changing roles forleading": "changing roles for leading",
+  "Nurturing self-leadership for Leading Together": "Nurturing self-leadership for leading together",
+  "doku-ment-och": "dokument-och",
+  "findings-from-ourresearch-2024": "findings-from-our-research-2024"
+ },
+ "practice_regex": "(practice|movement score|core quadrant|personal canvas|dream work week|decision protocol|consent process|consent-based|meeting roles|evaluating psychological safety)",
+ "practice_skip": [
+  "Evaluating psychological safety in a team or organisation.",
+  "Setting up a dialogue practice",
+  "Practices for different decision-making processes",
+  "The consent process",
+  "Example of an inspirational practice",
+  "A practice for participatory meetings"
+ ],
+ "journey_titles": {
+  "LIDINGÖ’S JOURNEY: transforming through culture and ecosystem": "Lidingö’s journey: transforming through culture and ecosystem",
+  "UMEÅ: A journey of building the new inside the old": "Umeå: a journey of building the new inside the old",
+  "UPPSALA: a journey of transforming a municipality from within": "Uppsala: a journey of transforming a municipality from within"
+ },
+ "intro_order": [
+  "Introduction",
+  "What did the learning process look like?",
+  "Who is this handbook for?",
+  "How should you use this handbook?",
+  "Voices from the field",
+  "Voice from the artistic field",
+  "A voice from fiction",
+  "About the authors"
+ ],
+ "home_readers": [
+  {
+   "title": "The transformation agent",
+   "text": "Already driving, or wanting to drive, change in your organisation, whether or not a formal title gives you that mandate."
+  },
+  {
+   "title": "The decision maker",
+   "text": "A politician, manager or anyone who designs the conditions people work in, and holds the power to enable change or prevent it."
+  },
+  {
+   "title": "The curious employee",
+   "text": "Someone who feels that things could be different, and wants to understand what leading together looks like in practice."
+  }
+ ],
+ "voice_bios": [
+  [
+   "Mette Aagaard",
+   "(Denmark) former executive with 30+ years transforming organisations; author of the first Danish book on shared leadership."
+  ],
+  [
+   "Karin Tenelius",
+   "(Sweden) co-founder of Tuff Leadership Training and co-author of Moose Heads on the Table."
+  ],
+  [
+   "Nati Lombardo",
+   "(Argentina/Spain) facilitator and co-founder of The Hum; member of the Enspiral network."
+  ],
+  [
+   "Dejan Srhoj",
+   "(Slovenia) contemporary dance artist and choreographer, co-founder of Nomad Dance Academy."
+  ]
+ ],
+ "merge_art": [
+  [
+   "p53-2",
+   "p53-4"
+  ],
+  [
+   "p56-1",
+   "p56-2",
+   "p56-3",
+   "p56-4",
+   "p56-5",
+   "p56-6",
+   "p56-7"
+  ],
+  [
+   "p73-0",
+   "p73-1",
+   "p73-2"
+  ],
+  [
+   "p96-0",
+   "p96-1",
+   "p96-2",
+   "p96-3",
+   "p96-4",
+   "p96-5",
+   "p96-6",
+   "p96-7",
+   "p96-8"
+  ]
+ ],
+ "home_quote_art": "p22-3",
+ "home_quote_ratio": "1828/1248",
+ "home_people": [
+  {
+   "name": "Nina Božič Yams",
+   "role": "Senior researcher, IVL Swedish Environmental Research Institute; project and research leader",
+   "art": "p4-0"
+  },
+  {
+   "name": "Laura Gottlieb",
+   "role": "Researcher and facilitator, RISE Research Institutes of Sweden",
+   "art": "p4-3"
+  },
+  {
+   "name": "Álvaro Aranda Muñoz",
+   "role": "Designer and researcher, IVL Swedish Environmental Research Institute",
+   "art": "p5-0"
+  }
+ ],
+ "voice_faces": {
+  "Mette Aagaard": "p10-2",
+  "Karin Tenelius": "p10-0",
+  "Nati Lombardo": "p10-1",
+  "Dejan Srhoj": "p11-0"
+ },
+ "practice_titles": {
+  "Support questions for thinking about your dream work week": "My Dream Work Week",
+  "Meeting roles: Purpose driver, Facilitator, and Documenter": "Participatory meeting roles: purpose driver, facilitator and documenter",
+  "self leadership/shared leadership": "Self-leadership / shared leadership",
+  "Core quadrant": "Core Quadrant",
+  "group morning exercise on dialoguing": "Group morning exercise on dialoguing"
+ },
+ "practice_tags": {
+  "daily embodied practice": [
+   "movement",
+   "individual"
+  ],
+  "Core quadrant": [
+   "individual",
+   "team"
+  ],
+  "Personal Canvas": [
+   "individual",
+   "team"
+  ],
+  "Weekly reflection practice": [
+   "individual"
+  ],
+  "group morning exercise on dialoguing": [
+   "movement",
+   "team"
+  ],
+  "Redefining my own role": [
+   "individual"
+  ],
+  "Support questions for thinking about your dream work week": [
+   "individual"
+  ]
+ },
+ "photos": [
+  "p6-0",
+  "p8-1",
+  "p15-0",
+  "p17-0",
+  "p18-0",
+  "p23-0",
+  "p29-0",
+  "p29-1",
+  "p42-0",
+  "p45-0",
+  "p46-6",
+  "p47-0",
+  "p47-2",
+  "p53-0",
+  "p53-3",
+  "p53-5",
+  "p55-0",
+  "p57-0",
+  "p65-1",
+  "p73-4",
+  "p75-0",
+  "p79-1",
+  "p84-0",
+  "p92-1",
+  "p95-1",
+  "p95-2",
+  "p95-3",
+  "p97-0",
+  "p110-0",
+  "p110-1",
+  "p114-1",
+  "p115-0",
+  "p117-0",
+  "p117-1",
+  "p120-0",
+  "p121-0",
+  "p122-0",
+  "p123-0",
+  "p132-0",
+  "p139-0",
+  "p4-0",
+  "p4-3",
+  "p5-0",
+  "p10-0",
+  "p10-1",
+  "p10-2",
+  "p11-0",
+  "p12-0"
+ ]
+}

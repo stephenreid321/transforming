@@ -1,0 +1,4 @@
+# intermediate extraction output (regenerate with tools/extract.py)
+content/raw.json
+content/review.txt
+__pycache__/
