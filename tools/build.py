@@ -5,6 +5,7 @@
 Outputs index.html, introduction.html, chapter-N.html, practices.html,
 voices.html, elena.html, journal.html and assets/search-index.js in the repo root.
 """
+import hashlib
 import html
 import json
 import re
@@ -133,8 +134,8 @@ def shell(title, body, *, n=0, desc="", current="", chapter_key="", head_extra="
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="preload" href="assets/fonts/bitter-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/hanken-grotesk-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/fonts.css">
-<link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="assets/fonts.css?v=__ASSETV__">
+<link rel="stylesheet" href="assets/style.css?v=__ASSETV__">
 <style>{root_vars(n)}</style>
 <script>try{{var t=JSON.parse(localStorage.getItem("theme"));if(t)document.documentElement.dataset.theme=t}}catch(e){{}}</script>
 {head_extra}
@@ -177,7 +178,7 @@ def shell(title, body, *, n=0, desc="", current="", chapter_key="", head_extra="
   <button class="close" aria-label="Stop timer">{ICON['x']}</button>
 </div>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="rough"><feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="7"/></filter></svg>
-<script src="assets/app.js" defer></script>
+<script src="assets/app.js?v=__ASSETV__" defer></script>
 </body>
 </html>
 """
@@ -746,8 +747,15 @@ pages["practices.html"] = practices_page()
 pages["voices.html"] = voices_page()
 pages["journal.html"] = journal_page()
 pages["index.html"] = home_page()
-for name, content in pages.items():
-    open(name, "w").write(content)
+search_js = "window.SEARCH_INDEX=" + json.dumps(search_index, ensure_ascii=False, separators=(",", ":")) + ";"
 with open("assets/search-index.js", "w") as f:
-    f.write("window.SEARCH_INDEX=" + json.dumps(search_index, ensure_ascii=False, separators=(",", ":")) + ";")
+    f.write(search_js)
+# cache buster: GitHub Pages lets browsers cache assets for 10 minutes, so every page
+# references them with a hash of their current contents
+digest = hashlib.sha1(search_js.encode())
+for asset in ("assets/style.css", "assets/app.js", "assets/fonts.css"):
+    digest.update(open(asset, "rb").read())
+ASSETV = digest.hexdigest()[:10]
+for name, content in pages.items():
+    open(name, "w").write(content.replace("__ASSETV__", ASSETV))
 print(f"{len(pages)} pages, {len(search_index)} search entries, {len(all_practices)} practices, {len(all_voices)} voices")

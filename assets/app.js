@@ -10,6 +10,7 @@
   };
   const root = document.documentElement;
   const ROOT = document.body.dataset.root || "";
+  const ASSET_V = (document.currentScript?.src.match(/[?&]v=([^&]+)/) || [])[1] || "";
 
   /* ---------- theme ---------- */
   const themeBtn = $("#theme-btn");
@@ -299,7 +300,7 @@
   const loadIndex = () => new Promise((res) => {
     if (index) return res(index);
     if (window.SEARCH_INDEX) { index = window.SEARCH_INDEX.map((r) => ({ ...r, n: norm(r.t + " " + r.x) })); return res(index); }
-    const s = document.createElement("script"); s.src = ROOT + "assets/search-index.js";
+    const s = document.createElement("script"); s.src = ROOT + "assets/search-index.js" + (ASSET_V ? "?v=" + ASSET_V : "");
     s.onload = () => { index = window.SEARCH_INDEX.map((r) => ({ ...r, n: norm(r.t + " " + r.x) })); res(index); };
     document.head.append(s);
   });
